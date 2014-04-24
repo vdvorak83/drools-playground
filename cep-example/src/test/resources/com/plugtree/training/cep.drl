@@ -1,0 +1,28 @@
+package com.plugtree.training;
+
+import com.plugtree.training.model.Order;
+
+declare Order
+  @role (event)
+end
+
+rule "100 orders in 2 minutes"
+when
+	$amount: Number(intValue >= 100) from accumulate (
+		$o: Order() over window:time(2m) 
+			from entry-point "orders",
+		count($o)
+	) 
+then
+	System.out.println("100 orders or more");
+end
+
+rule "2 orders 5 minutes apart"
+when
+	$o1: Order()
+	$o2: Order(this after[5m] $o1)
+then
+	System.out.println("2 orders 5 minutes apart: " + $o1 + " and " + $o2);
+	entryPoints["orders"].insert($o1);
+	entryPoints["orders"].insert($o2);
+end

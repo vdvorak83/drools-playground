@@ -16,6 +16,7 @@
     <module>droolsjbpm6-quickstart</module>
     <module>drools6-introduction</module>
     <module>conditional-elements</module>
+    <module>cep-example</module>
     <module>rule-attributes</module>
     <module>backward-chaining</module>
     <module>drools-decisiontables-example</module>
