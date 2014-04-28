@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.drools.core.WorkingMemory;
+import org.drools.core.command.impl.CommandBasedStatefulKnowledgeSession;
 import org.drools.core.event.ActivationCancelledEvent;
 import org.drools.core.event.ActivationCreatedEvent;
 import org.drools.core.event.AfterActivationFiredEvent;
@@ -13,6 +14,7 @@ import org.drools.core.event.BeforeActivationFiredEvent;
 import org.drools.core.event.RuleFlowGroupActivatedEvent;
 import org.drools.core.event.RuleFlowGroupDeactivatedEvent;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl;
+import org.drools.persistence.SingleSessionCommandService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kie.api.KieServices;
@@ -87,6 +89,14 @@ public class TaskTypeVarietyProcessTest {
         };
         //adding it is a bit dirty for the time being, but it works:
         ((StatefulKnowledgeSessionImpl) ksession).session.addEventListener(agendaEventListener);
+        //
+        
+        //THIS IS THE WAY TO DO IT IF YOU USE PERSISTENT SESSIONS
+        //CommandBasedStatefulKnowledgeSession cmdSession = (CommandBasedStatefulKnowledgeSession) ksession;
+        //SingleSessionCommandService cmdService = (SingleSessionCommandService) cmdSession.getCommandService();
+        //KieSession myKsession = cmdService.getKieSession();
+        //((StatefulKnowledgeSessionImpl) myKsession).session.addEventListener(agendaEventListener);
+        
         //END: REGISTER EVENT LISTENER TO FIRE RULES FOR BUSINESS RULE TASK TO WORK
         
     	//Register WorkItemManagers for all the generic tasks in the process
