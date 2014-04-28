@@ -29,6 +29,7 @@
     <module>drools6-cdi-kiesession</module>
     <module>jbpm6-introduction</module>
     <module>bpmn2-scenarios</module>
+    <module>ad-hoc-processes</module>
     <module>drools-persistent-session</module>
     <module>jbpm-persistent-session</module>
     <module>persistence-homework-results</module>
