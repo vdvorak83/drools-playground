@@ -1,5 +1,7 @@
 package com.plugtree.training.expert;
 
+import org.drools.decisiontable.InputType;
+import org.drools.decisiontable.SpreadsheetCompiler;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +27,11 @@ public class SpreadsheetHandsOnLabsTest  {
     public void setUp() throws Exception {
     	KieServices ks = KieServices.Factory.get();
     	KieFileSystem kfs = ks.newKieFileSystem();
-    	kfs.write("src/main/resources/rules/my-file.drl", ResourceFactory.newClassPathResource("rules/HandsOnLabsRules.drl"));
+    	kfs.write("src/main/resources/rules/my-file.xls", ResourceFactory.newClassPathResource("rules/StockItems.xls"));
+
+    	SpreadsheetCompiler compiler = new SpreadsheetCompiler();
+    	String drl = compiler.compile("/rules/StockItems.xls", InputType.XLS);
+    	System.out.println(drl);
 
     	KieBuilder kbuilder = ks.newKieBuilder(kfs);
     	System.out.println("Compiling resources");

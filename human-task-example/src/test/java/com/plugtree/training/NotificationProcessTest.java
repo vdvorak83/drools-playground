@@ -92,7 +92,7 @@ public class NotificationProcessTest {
         }
     } 
     
-    @Test @Ignore("Maven tests seem to have problems with this class for the moment")
+    @Test
     public void taskEscalationTest() throws Exception {
         //Start the process using its id
     	Map<String, Object> params = new HashMap<String, Object>();

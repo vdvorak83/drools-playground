@@ -82,6 +82,23 @@ public class HomeworkTest {
         //The process should be completed now. Let's check the state
         Assert.assertEquals(ProcessInstance.STATE_COMPLETED, processInstance.getState());
     }
+
+    @Test
+    public void doTestYahooFinance() {
+    	GetSharePriceHandler handlerGet = new GetSharePriceHandler();
+    	CommandDoneHandler handlerBuy = new CommandDoneHandler();
+    	CommandDoneHandler handlerSell = new CommandDoneHandler();
+    	initSession(handlerGet, handlerBuy, handlerSell);
+        
+        //Start the process using its ID
+        WorkflowProcessInstance processInstance = (WorkflowProcessInstance) session.startProcess("homework");
+
+        System.out.println(processInstance.getVariable("shareValue"));
+        
+        //The process should be completed now. Let's check the state
+        Assert.assertEquals(ProcessInstance.STATE_COMPLETED, processInstance.getState());
+    }
+
     
     @Test
     public void doTestSellPath() {
