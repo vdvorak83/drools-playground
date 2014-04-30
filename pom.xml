@@ -21,6 +21,7 @@
     <module>backward-chaining</module>
     <module>drools-decisiontables-example</module>
     <module>drools-dsl-example</module>
+    <module>rule-templates-example</module>
     <module>custom-operators</module>
     <module>spring-camel-integration</module>
     <module>drools6-kiesession</module>
