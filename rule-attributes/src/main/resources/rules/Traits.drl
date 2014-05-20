@@ -1,0 +1,31 @@
+package com.plugtree.training;
+
+import org.plugtree.training.model.Artist;
+import org.plugtree.training.model.Song;
+
+declare Song
+   @Traitable
+end
+
+declare trait CoolObject
+   coolLevel: Integer
+end
+
+rule "Michael Jackson is cool"
+no-loop
+when
+	$s: Song($artists: artists) 
+	Artist(name == "Michael", lastname == "Jackson") from $artists
+then
+	System.out.println(drools.getRule().getName());
+	CoolObject cs = don($s, CoolObject.class, false);
+	cs.setCoolLevel(10);
+	update(cs);
+end
+
+rule "Cool stuff found"
+when
+	$cs: CoolObject(coolLevel > 5)
+then
+	System.out.println(drools.getRule().getName() + ": " + $cs);
+end

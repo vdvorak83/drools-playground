@@ -17,6 +17,30 @@ then
 	System.out.println("100 orders or more");
 end
 
+rule "window changing"
+when 
+	n: Number(intValue > 0) from accumulate(
+		$o: Order(val == "x") 
+		over window:time(10s)
+		from entry-point "evaluations", 
+		count($o))
+then
+	System.out.println("We have " + n + " orders");
+end
+
+rule "10 seconds of nothing"
+when
+        Order(val == "x") from entry-point "evaluations"
+	not (
+		Order(val == "x") 
+		over window:time(10s) 
+		from entry-point "evaluations"
+	)
+then
+    System.out.println("Nothing new in 10 seconds");
+	kcontext.getKnowledgeRuntime().halt();
+end
+
 rule "2 orders 5 minutes apart"
 when
 	$o1: Order()

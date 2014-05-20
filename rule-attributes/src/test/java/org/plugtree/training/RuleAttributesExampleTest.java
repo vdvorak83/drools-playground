@@ -77,6 +77,7 @@ public class RuleAttributesExampleTest {
         ksession.dispose();
 
     }
+
     @Test
     public void lockOnActive() throws Exception {
 
@@ -101,6 +102,22 @@ public class RuleAttributesExampleTest {
         ksession.dispose();
 
     }
+
+    @Test
+    public void traits() throws Exception {
+
+        Song s = this.createThrillerSong();
+
+        KieSession ksession = this.createKieSession("rules/Traits.drl", null);
+
+        ksession.insert(s);
+        ksession.fireAllRules();
+
+        ksession.dispose();
+    }
+
+    
+    
     @Test
     public void agendaGroup() throws Exception {
 

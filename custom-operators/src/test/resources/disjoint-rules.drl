@@ -4,9 +4,8 @@ import java.util.List;
 
 rule "Disjoint is empty"
 when
-	list1: List();
-	eval(list1.contains("1"))
-	list2: List(this != list1, this disjoint list1);
+	list1: List(this contains "1")
+	list2: List(this != list1, this disjoint list1)
 then
 	System.out.println("Disjoint is empty");
 end

@@ -3,6 +3,10 @@ package com.plugtree.training;
 import java.util.concurrent.TimeUnit;
 
 import org.drools.core.ClockType;
+import org.drools.core.audit.WorkingMemoryFileLogger;
+import org.drools.core.event.AgendaEventListener;
+import org.drools.core.event.WorkingMemoryEventListener;
+import org.drools.core.impl.StatefulKnowledgeSessionImpl;
 import org.drools.core.time.SessionPseudoClock;
 import org.junit.Assert;
 import org.junit.Test;
@@ -56,9 +60,42 @@ public class CEPTest {
 		ksession.getEntryPoint("orders").insert(new Order());
 		
 		int rulesFired = ksession.fireAllRules();
+		
 		Assert.assertEquals(1, rulesFired);
 	}
 
+	@Test
+	public void testCEP3() throws Exception {
+		KieServices ks = KieServices.Factory.get();
+		KieFileSystem kfs = ks.newKieFileSystem();
+		kfs.write(ResourceFactory.newClassPathResource("com/plugtree/training/cep.drl"));
+		KieBuilder kbuilder = ks.newKieBuilder(kfs);
+		kbuilder.buildAll();
+		if (kbuilder.getResults().hasMessages(Level.ERROR)) {
+			throw new IllegalArgumentException(kbuilder.getResults().toString());
+		}
+		ReleaseId relId = kbuilder.getKieModule().getReleaseId();
+		KieContainer kcontainer = ks.newKieContainer(relId);
+		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
+		kbconf.setOption(EventProcessingOption.STREAM);
+		KieBase kbase = kcontainer.newKieBase(kbconf);
+		
+		KieSession ksession = kbase.newKieSession();
+		WorkingMemoryFileLogger logger = new WorkingMemoryFileLogger();
+		((StatefulKnowledgeSessionImpl) ksession).session.addEventListener((AgendaEventListener) logger);
+		((StatefulKnowledgeSessionImpl) ksession).session.addEventListener((WorkingMemoryEventListener) logger);
+		logger.setFileName("/opt/git/medellin/cep-log.txt");
+
+		for (int index = 0; index < 10; index++) {
+			Thread.sleep(100);
+			ksession.getEntryPoint("evaluations").insert(new Order("x"));
+		}
+		
+		ksession.fireUntilHalt();
+		logger.writeToDisk();
+	}
+	
+	
 	@Test
 	public void testCEP2() {
 		KieServices ks = KieServices.Factory.get();

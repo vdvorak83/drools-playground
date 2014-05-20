@@ -23,11 +23,7 @@ rule "Warn when we have a Michael Jackson's song is in a playlist"
     when
          exists($playlist: Playlist($songs: songs) and
           Song($artists: artists) from $songs and
-                      Artist(name == "Michael", lastname == "Jackson") from $artists)
-                   
-              
-        
-            
+          Artist(name == "Michael", lastname == "Jackson") from $artists)
     then
         System.out.println("We found a Michael Jackson's song in a playlist");
 end

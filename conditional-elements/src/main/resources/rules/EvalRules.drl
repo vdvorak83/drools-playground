@@ -13,8 +13,12 @@ end
 
 rule "Warn when we have a Playlist longer than 9000 seconds"
 	when
-		$playlist: Playlist() 
-                eval($playlist.isLongerThan(9000))
+		$playlist: Playlist($songs: songs) 
+		//Number(intValue > 9000) from accumulate(
+		//	Song($d: duration) from $songs,
+		//	sum($d)
+		//)
+        eval($playlist.isLongerThan(9000))
 	then
 		System.out.println("We have found a Playlist longer than 9000 seconds");
 end

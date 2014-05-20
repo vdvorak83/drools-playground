@@ -5,7 +5,7 @@ import org.plugtree.training.model.*
 rule "Warn when we have a Playlist with more than two songs AND containing 'Thriller'"
 	when
 		$playlist: Playlist($songs: songs, songs.size() > 2) 
-                $song: Song(title == 'Thriller') from $songs
+        $song: Song(title == 'Thriller') from $songs
 	then
 		System.out.println("We have found a Playlist with more than two songs that contains 'Thriller' "+$song);
 end
