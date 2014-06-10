@@ -81,10 +81,6 @@ public class CEPTest {
 		KieBase kbase = kcontainer.newKieBase(kbconf);
 		
 		KieSession ksession = kbase.newKieSession();
-		WorkingMemoryFileLogger logger = new WorkingMemoryFileLogger();
-		((StatefulKnowledgeSessionImpl) ksession).session.addEventListener((AgendaEventListener) logger);
-		((StatefulKnowledgeSessionImpl) ksession).session.addEventListener((WorkingMemoryEventListener) logger);
-		logger.setFileName("/opt/git/medellin/cep-log.txt");
 
 		for (int index = 0; index < 10; index++) {
 			Thread.sleep(100);
@@ -92,7 +88,6 @@ public class CEPTest {
 		}
 		
 		ksession.fireUntilHalt();
-		logger.writeToDisk();
 	}
 	
 	

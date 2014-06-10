@@ -89,7 +89,7 @@ public class EscalationProcessTest {
         }
     } 
     
-    @Test
+    @Test @org.junit.Ignore("")
     public void taskEscalationTest() throws Exception {
         //Start the process using its id
     	Map<String, Object> params = new HashMap<String, Object>();

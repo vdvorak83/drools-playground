@@ -14,7 +14,6 @@ import org.drools.core.event.BeforeActivationFiredEvent;
 import org.drools.core.event.RuleFlowGroupActivatedEvent;
 import org.drools.core.event.RuleFlowGroupDeactivatedEvent;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl;
-import org.drools.persistence.SingleSessionCommandService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kie.api.KieServices;

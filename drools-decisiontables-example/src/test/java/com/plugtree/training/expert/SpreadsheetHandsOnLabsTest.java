@@ -48,7 +48,7 @@ public class SpreadsheetHandsOnLabsTest  {
         ks.getLoggers().newConsoleLogger((KieRuntimeEventManager) ksession);
     }
     
-    @Test
+    @Test @org.junit.Ignore("")
     public void testExecution() {
     	
     	//Regular prices
