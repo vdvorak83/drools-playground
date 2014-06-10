@@ -15,10 +15,6 @@
     <name>jBPM training :: JMS Task Service Example</name>
     <url>http://www.plugtree.com</url>
 
-    <properties>
-        <jbpm.version>${jbpm.version.5}</jbpm.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.jbpm</groupId>

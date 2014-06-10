@@ -19,9 +19,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:cxf="http://camel.apache.org/schema/cxf"
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-       xmlns:kie="http://drools.org/schema/kie-spring"
+       xmlns:drools="http://drools.org/schema/drools-spring"
        xsi:schemaLocation="
-       http://drools.org/schema/kie-spring http://drools.org/schema/kie-spring.xsd
+       http://drools.org/schema/drools-spring org/drools/container/spring/drools-spring-1.7.0.xsd
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
@@ -30,48 +30,52 @@
 
   <bean id="myPeopleList" class="java.util.ArrayList"/>
 
-  <kie:kmodule id="cxf-rs-spring">
-    <kie:kbase name="test1">
-      <kie:ksession name="ksession1">
-        <kie:batch>
-          <kie:set-global identifier="list" >
-            <ref bean="myPeopleList" />
-          </kie:set-global>
-        </kie:batch>
-      </kie:ksession>
-      <kie:ksession name="ksession2"/>
-    </kie:kbase>
-  </kie:kmodule>
+  <drools:grid-node id="node1" />
+  
+  <drools:kbase id="kbase1" node="node1">
+      <drools:resources>
+        <drools:resource type="DRL" source="classpath:test1/testSpring.drl"/>
+    </drools:resources>
+  </drools:kbase>
 
-  <!-- Defined the server endpoint to create the cxf-rs consumer -->
+  
+  <drools:ksession id="ksession1" type="stateful" name="ksession1" kbase="kbase1" node="node1">
+      <drools:script>
+        <drools:set-global identifier="list" >
+           <ref bean="myPeopleList" />
+        </drools:set-global>
+        </drools:script>
+    </drools:ksession>   
+         
+  <!-- Defined the server endpoint to create the cxf-rs consumer --> 
   <cxf:rsServer id="rsServer" 
-          address="http://localhost:38009/rest"
-          serviceClass="org.kie.jax.rs.CommandExecutorImpl">
+          address="http://localhost:58001/rest"
+                serviceClass="org.drools.jax.rs.CommandExecutorImpl">
        <cxf:providers>
-           <bean class="org.kie.jax.rs.CommandMessageBodyReader"/>
+           <bean class="org.drools.jax.rs.CommandMessageBodyReader"/>
        </cxf:providers>
   </cxf:rsServer>  
   
-  <bean id="kiePolicy" class="org.kie.camel.component.KiePolicy" />
+  <bean id="droolsPolicy" class="org.drools.camel.component.DroolsPolicy" />  
     
   <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
     
     <route>
        <from uri="cxfrs://bean://rsServer"/>
-       <policy ref="kiePolicy">
+       <policy ref="droolsPolicy">
          <unmarshal ref="xstream" />
-         <to uri="kie:ksession1" />
+         <to uri="drools:node1/ksession1" />
          <marshal ref="xstream" />
        </policy>
     </route>
     
     <route id="x1">
        <from uri="direct://http"/>
-       <policy ref="kiePolicy">
-         <to uri="cxfrs://http://localhost:38009/rest"/>
+       <policy ref="droolsPolicy">
+         <to uri="cxfrs://http://localhost:58001/rest"/>
        </policy> 
     </route> 
         
   </camelContext>
-  
+
 </beans>

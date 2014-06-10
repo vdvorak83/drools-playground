@@ -12,10 +12,6 @@
   <name>Drools Training - Drools DSL Example</name>
   <url>http://www.plugtree.com</url>
 
-  <properties>
-    <drools.version>${drools.version.5}</drools.version>
-  </properties>
-	
   <dependencies>
     <dependency>
       <groupId>org.drools</groupId>

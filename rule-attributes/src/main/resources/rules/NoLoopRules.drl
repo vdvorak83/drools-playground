@@ -1,5 +1,5 @@
-#no-loop prevents the rule to be activated again if the rule's consequence
-#modifies a fact.
+/*no-loop prevents the rule to be activated again if the rule's consequence
+modifies a fact. */
 package org.plugtree.training
 
 import org.plugtree.training.model.*

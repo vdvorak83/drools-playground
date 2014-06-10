@@ -13,11 +13,6 @@
   <name>Drools &amp; jBPM 5 Practical Quickstart</name>
   <url>http://plugtree.com</url>
 
-  <properties>
-    <jbpm.version>${jbpm.version.5}</jbpm.version>
-    <drools.version>${drools.version.5}</drools.version>
-  </properties>
-
   <dependencies>
     <!-- Test dependencies -->
     <dependency>

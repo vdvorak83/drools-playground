@@ -1,9 +1,0 @@
-package com.plugtree.training.example.defaultkiesession
-
-rule "rule 1"
-when
-    o : String( )
-then
-    System.out.println( "String!!" + o );
-end
-

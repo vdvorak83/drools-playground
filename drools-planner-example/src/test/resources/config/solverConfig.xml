@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+  <!--<environmentMode>FAST_ASSERT</environmentMode>-->
+
+  <!-- Domain model configuration -->
+  <solutionClass>org.drools.planner.examples.cloudbalancing.domain.CloudBalance</solutionClass>
+  <planningEntityClass>org.drools.planner.examples.cloudbalancing.domain.CloudProcess</planningEntityClass>
+
+  <!-- Score configuration -->
+  <scoreDirectorFactory>
+    <scoreDefinitionType>HARD_AND_SOFT</scoreDefinitionType>
+    <scoreDrl>/rules/solverRules.drl</scoreDrl>
+  </scoreDirectorFactory>
+
+  <!-- Optimization algorithms configuration -->
+  <termination>
+    <maximumSecondsSpend>120</maximumSecondsSpend>
+    <scoreAttained>0hard/-500000soft</scoreAttained>
+  </termination>
+  <constructionHeuristic>
+    <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
+    <constructionHeuristicPickEarlyType>FIRST_LAST_STEP_SCORE_EQUAL_OR_IMPROVING</constructionHeuristicPickEarlyType>
+  </constructionHeuristic>
+  <localSearch>
+    <acceptor>
+      <planningEntityTabuSize>7</planningEntityTabuSize>
+    </acceptor>
+    <forager>
+      <minimalAcceptedSelection>1000</minimalAcceptedSelection>
+    </forager>
+  </localSearch>
+</solver>

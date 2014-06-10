@@ -14,10 +14,6 @@
   <name>Drools5 Training - Rule Attributes Examples</name>
   <url>http://www.plugtree.com</url>
 
-  <properties>
-    <drools.version>${drools.version.5}</drools.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.drools</groupId>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+  <!--<environmentMode>DEBUG</environmentMode>-->
+  <solutionClass>org.drools.planner.examples.tsp.domain.TravelingSalesmanTour</solutionClass>
+  <planningEntityClass>org.drools.planner.examples.tsp.domain.Visit</planningEntityClass>
+
+  <scoreDirectorFactory>
+    <scoreDefinitionType>SIMPLE</scoreDefinitionType>
+    <scoreDrl>/org/drools/planner/examples/tsp/solver/tspScoreRules.drl</scoreDrl>
+  </scoreDirectorFactory>
+
+  <termination>
+    <maximumMinutesSpend>2</maximumMinutesSpend>
+  </termination>
+  <constructionHeuristic>
+    <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+  </constructionHeuristic>
+  <localSearch>
+    <unionMoveSelector>
+      <changeMoveSelector>
+        <cacheType>PHASE</cacheType>
+        <selectionOrder>SHUFFLED</selectionOrder>
+      </changeMoveSelector>
+      <swapMoveSelector>
+        <cacheType>PHASE</cacheType>
+        <selectionOrder>SHUFFLED</selectionOrder>
+      </swapMoveSelector>
+    </unionMoveSelector>
+    <acceptor>
+      <solutionTabuSize>1000</solutionTabuSize>
+      <planningEntityTabuSize>7</planningEntityTabuSize>
+    </acceptor>
+    <forager>
+      <minimalAcceptedSelection>10000</minimalAcceptedSelection>
+    </forager>
+  </localSearch>
+</solver>

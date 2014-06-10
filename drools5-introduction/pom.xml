@@ -11,10 +11,6 @@
   <artifactId>drools5-Introduction</artifactId>
   <packaging>jar</packaging>
 
-  <properties>
-    <drools.version>${drools.version.5}</drools.version>
-  </properties>
-    
   <name>Drools5 Introduction</name>
   <url>http://www.plugtree.com</url>
   <dependencies>

@@ -10,27 +10,23 @@
     
   <artifactId>spring-camel-integration</artifactId>
   <packaging>jar</packaging>
-
-  <properties>
-    <drools.version>${drools.version.6}</drools.version>
-  </properties>
     
   <name>Drools Integration with Spring and Camel</name>
   <url>http://www.plugtree.com</url>
   <dependencies>
     <dependency>
-      <groupId>org.kie</groupId>
-      <artifactId>kie-api</artifactId>
+      <groupId>org.drools</groupId>
+      <artifactId>knowledge-api</artifactId>
       <version>${drools.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kie</groupId>
-      <artifactId>kie-spring</artifactId>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-spring</artifactId>
       <version>${drools.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.kie</groupId>
-      <artifactId>kie-camel</artifactId>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-camel</artifactId>
       <version>${drools.version}</version>
     </dependency>
     <dependency>
@@ -65,13 +61,7 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-test</artifactId>
-      <version>2.10.3</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-test-spring</artifactId>
-      <version>2.10.3</version>
+      <version>2.9.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>

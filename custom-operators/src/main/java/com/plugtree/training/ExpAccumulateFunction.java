@@ -6,7 +6,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
 
-import org.kie.api.runtime.rule.AccumulateFunction;
+import org.drools.base.accumulators.AccumulateFunction;
 
 public class ExpAccumulateFunction implements AccumulateFunction {
 

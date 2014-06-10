@@ -3,29 +3,29 @@ package com.plugtree.training;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.core.audit.WorkingMemoryInMemoryLogger;
-import org.drools.core.audit.event.ActivationLogEvent;
-import org.drools.core.audit.event.LogEvent;
-import org.drools.core.impl.InternalKnowledgeBase;
+import org.drools.KnowledgeBase;
+import org.drools.audit.WorkingMemoryInMemoryLogger;
+import org.drools.audit.event.ActivationLogEvent;
+import org.drools.audit.event.LogEvent;
+import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderConfiguration;
+import org.drools.builder.KnowledgeBuilderError;
+import org.drools.builder.KnowledgeBuilderFactory;
+import org.drools.builder.ResourceType;
+import org.drools.builder.conf.AccumulateFunctionOption;
+import org.drools.builder.conf.EvaluatorOption;
+import org.drools.event.KnowledgeRuntimeEventManager;
+import org.drools.io.ResourceFactory;
+import org.drools.runtime.StatefulKnowledgeSession;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kie.api.io.ResourceType;
-import org.kie.api.runtime.KieSession;
-import org.kie.internal.builder.KnowledgeBuilder;
-import org.kie.internal.builder.KnowledgeBuilderConfiguration;
-import org.kie.internal.builder.KnowledgeBuilderError;
-import org.kie.internal.builder.KnowledgeBuilderFactory;
-import org.kie.internal.builder.conf.AccumulateFunctionOption;
-import org.kie.internal.builder.conf.EvaluatorOption;
-import org.kie.internal.event.KnowledgeRuntimeEventManager;
-import org.kie.internal.io.ResourceFactory;
 
 public class CustomOperatorsTest {
 
 	@Test
 	public void testDisjoint() throws Exception {
 		KnowledgeBuilderConfiguration kbconf = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration();
-		kbconf.setOption(EvaluatorOption.get("setop", new DisjointEvaluatorDefinition()));
+		kbconf.setOption(EvaluatorOption.get("setop", new DisjointEvaluatorsDefinition()));
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kbconf);
 		kbuilder.add(ResourceFactory.newClassPathResource("disjoint-rules.drl"), ResourceType.DRL);
 		if (kbuilder.hasErrors()) {
@@ -34,8 +34,8 @@ public class CustomOperatorsTest {
 			}
 			throw new IllegalArgumentException("Can't build knowledge package");
 		}
-		InternalKnowledgeBase kbase = (InternalKnowledgeBase) kbuilder.newKnowledgeBase();
-		KieSession ksession = kbase.newKieSession();
+		KnowledgeBase kbase = kbuilder.newKnowledgeBase();
+		StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 		WorkingMemoryInMemoryLogger logger = new WorkingMemoryInMemoryLogger((KnowledgeRuntimeEventManager) ksession);
 		List<String> list1 = new ArrayList<String>();
 		list1.add("1");
@@ -70,7 +70,7 @@ public class CustomOperatorsTest {
 	@Test
 	public void testNotDisjoint() throws Exception {
 		KnowledgeBuilderConfiguration kbconf = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration();
-		DisjointEvaluatorDefinition disjointdef = new DisjointEvaluatorDefinition();
+		DisjointEvaluatorsDefinition disjointdef = new DisjointEvaluatorsDefinition();
 		kbconf.setOption(EvaluatorOption.get("disjoint", disjointdef));
 		kbconf.setOption(EvaluatorOption.get("not disjoint", disjointdef));
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kbconf);
@@ -81,8 +81,8 @@ public class CustomOperatorsTest {
 			}
 			throw new IllegalArgumentException("Can't build knowledge package");
 		}
-		InternalKnowledgeBase kbase = (InternalKnowledgeBase) kbuilder.newKnowledgeBase();
-		KieSession ksession = kbase.newKieSession();
+		KnowledgeBase kbase = kbuilder.newKnowledgeBase();
+		StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 		WorkingMemoryInMemoryLogger logger = new WorkingMemoryInMemoryLogger((KnowledgeRuntimeEventManager) ksession);
 		List<String> list1 = new ArrayList<String>();
 		list1.add("1");
@@ -126,8 +126,8 @@ public class CustomOperatorsTest {
 			}
 			throw new IllegalArgumentException("Can't build knowledge package");
 		}
-		InternalKnowledgeBase kbase = (InternalKnowledgeBase) kbuilder.newKnowledgeBase();
-		KieSession ksession = kbase.newKieSession();
+		KnowledgeBase kbase = kbuilder.newKnowledgeBase();
+		StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
 		ResultHolder holder = new ResultHolder();
 		holder.setResult(-1.0);
 		ksession.setGlobal("resultHolder", holder);

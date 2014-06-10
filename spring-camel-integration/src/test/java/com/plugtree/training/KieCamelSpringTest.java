@@ -5,11 +5,9 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.test.junit4.CamelSpringTestSupport;
-import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.junit.Test;
-import org.kie.spring.InternalKieSpringUtils;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.AbstractXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.plugtree.training.model.Person;
 
@@ -17,9 +15,7 @@ public class KieCamelSpringTest extends CamelSpringTestSupport {
 
 	@Override
 	protected AbstractApplicationContext createApplicationContext() {
-		return (AbstractXmlApplicationContext) InternalKieSpringUtils.getSpringContext(
-				new ReleaseIdImpl("com.plugtree.training", "spring-camel-integration", "0001"), 
-				getClass().getResource("/cxf-rs-spring.xml"));
+		return new ClassPathXmlApplicationContext("/cxf-rs-spring.xml");
 	}
 
 	@Test

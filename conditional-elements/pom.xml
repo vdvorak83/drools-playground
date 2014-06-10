@@ -11,10 +11,6 @@
   <artifactId>conditional-elements</artifactId>
   <packaging>jar</packaging>
   
-  <properties>
-    <drools.version>${drools.version.5}</drools.version>
-  </properties>
-  
   <name>Drools5 Training - Conditional Elements Example</name>
   <url>http://www.plugtree.com</url>
   <dependencies>

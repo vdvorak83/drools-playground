@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy;
-import org.kie.api.runtime.Environment;
-import org.kie.api.runtime.EnvironmentName;
+import org.drools.runtime.Environment;
+import org.drools.runtime.EnvironmentName;
 
 public class TestObjectMarshallingStrategy extends JPAPlaceholderResolverStrategy {
 

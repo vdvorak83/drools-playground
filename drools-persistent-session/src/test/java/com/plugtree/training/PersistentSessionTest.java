@@ -9,24 +9,24 @@ import javax.persistence.Persistence;
 
 import junit.framework.Assert;
 
-import org.drools.core.base.MapGlobalResolver;
-import org.drools.core.impl.EnvironmentFactory;
-import org.drools.core.marshalling.impl.ClassObjectMarshallingStrategyAcceptor;
-import org.drools.core.marshalling.impl.SerializablePlaceholderResolverStrategy;
+import org.drools.KnowledgeBase;
+import org.drools.KnowledgeBaseFactory;
+import org.drools.base.MapGlobalResolver;
+import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderFactory;
+import org.drools.builder.ResourceType;
+import org.drools.impl.EnvironmentFactory;
+import org.drools.io.ResourceFactory;
+import org.drools.marshalling.ObjectMarshallingStrategy;
+import org.drools.marshalling.impl.ClassObjectMarshallingStrategyAcceptor;
+import org.drools.marshalling.impl.SerializablePlaceholderResolverStrategy;
+import org.drools.persistence.jpa.JPAKnowledgeService;
+import org.drools.runtime.Environment;
+import org.drools.runtime.EnvironmentName;
+import org.drools.runtime.StatefulKnowledgeSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kie.api.KieBase;
-import org.kie.api.KieServices;
-import org.kie.api.builder.KieBuilder;
-import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.Message;
-import org.kie.api.marshalling.ObjectMarshallingStrategy;
-import org.kie.api.runtime.Environment;
-import org.kie.api.runtime.EnvironmentName;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
-import org.kie.internal.persistence.jpa.JPAKnowledgeService;
 
 import bitronix.tm.TransactionManagerServices;
 import bitronix.tm.resource.jdbc.PoolingDataSource;
@@ -61,8 +61,6 @@ public class PersistentSessionTest {
 	public void testPersistentSession() throws Exception {
 
 		//create a dynamic kiebase 
-		KieServices ks = KieServices.Factory.get();
-		KieFileSystem kfs = ks.newKieFileSystem();
 		String rule = "package org.kie.test\n" +
         			  "global java.util.List list\n" +
         			  "rule rule1\n" + 
@@ -71,14 +69,13 @@ public class PersistentSessionTest {
         			  "then\n" +
         			  "  list.add( 1 );\n" +
         			  "end\n";
-		kfs.write("src/main/resources/test-package/test.drl", rule);
-		KieBuilder kbuilder = ks.newKieBuilder(kfs);
-		kbuilder.buildAll();
-		if (kbuilder.getResults().hasMessages(Message.Level.ERROR)) {
+		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+		kbuilder.add(ResourceFactory.newByteArrayResource(rule.getBytes()), ResourceType.DRL);
+		if (kbuilder.hasErrors()) {
 			throw new IllegalArgumentException("Couldn't compile rules:" + kbuilder.getResults());
 		}
-		KieContainer kc = ks.newKieContainer(kbuilder.getKieModule().getReleaseId());
-		KieBase kbase = kc.newKieBase(null);
+		KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+		kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
 		
 		//create an enviroment with the entity manager factory
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.drools.persistence.jpa");
@@ -92,7 +89,7 @@ public class PersistentSessionTest {
         });
         
         //create the persistent session
-		KieSession ksession = JPAKnowledgeService.newStatefulKnowledgeSession(kbase, null, environment);
+		StatefulKnowledgeSession ksession = JPAKnowledgeService.newStatefulKnowledgeSession(kbase, null, environment);
 
 		List<?> list = new ArrayList<Object>();
 		
@@ -106,7 +103,7 @@ public class PersistentSessionTest {
 		Assert.assertEquals(2, list.size());
 		
 		//reload the session
-		KieSession ksession2 = JPAKnowledgeService.loadStatefulKnowledgeSession(ksession.getId(), kbase, null, environment);
+		StatefulKnowledgeSession ksession2 = JPAKnowledgeService.loadStatefulKnowledgeSession(ksession.getId(), kbase, null, environment);
 		
 		List<?> list2 = (List<?>) ksession2.getGlobal("list");
 		
