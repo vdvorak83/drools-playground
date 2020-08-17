@@ -9,7 +9,7 @@
   <name>Drools &amp; jBPM Training</name>
 
   <properties>
-    <kie.version>6.0.1.Final</kie.version>
+    <kie.version>6.5.0.Final</kie.version>
   </properties>
 
   <modules>
