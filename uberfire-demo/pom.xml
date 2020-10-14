@@ -34,7 +34,7 @@
         <module>uberfire-demo-showcase</module>
     </modules>
     <properties>
-	  <errai.version>2.4.3.Final</errai.version>
+	  <errai.version>3.0.0.Final</errai.version>
     </properties>
 
 <dependencyManagement>
