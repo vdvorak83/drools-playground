@@ -88,7 +88,7 @@
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <version>3.1</version>
+      <version>3.6</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.btm</groupId>
