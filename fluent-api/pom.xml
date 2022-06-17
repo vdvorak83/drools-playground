@@ -8,8 +8,8 @@
   <version>1.0-SNAPSHOT</version>
   
   <properties>
-    <jbpm.version>6.0.1.Final</jbpm.version>
-    <drools.version>6.0.1.Final</drools.version>
+    <jbpm.version>6.1.0.Final</jbpm.version>
+    <drools.version>7.60.0.Final</drools.version>
   </properties>
 
   <dependencies>
